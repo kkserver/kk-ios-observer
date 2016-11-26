@@ -120,6 +120,12 @@ public class KKObserver : KKObject {
     
     public var value:Any? = nil
     
+    public var parent:KKObserver? {
+        get {
+            return nil;
+        }
+    }
+    
     private var keyObserver:KKKeyObserver = KKKeyObserver.init()
     
     override internal func valueOf() -> Any? {
@@ -129,29 +135,22 @@ public class KKObserver : KKObject {
         return value
     }
     
-    override public func changeKeys(keys:[String]) {
+    override public func changeKeys(_ keys:[String]) {
         keyObserver.changeKeys(observer: self, keys: keys, idx: 0)
-        super.changeKeys(keys: keys)
+        super.changeKeys(keys)
     }
     
-    public func on(keys:[String],fn:KKObserver.Function?,weakObject:AnyObject?,children:Bool) {
+    public func on(_ keys:[String],_ fn:KKObserver.Function?,_ weakObject:AnyObject?,_ children:Bool) {
         keyObserver.add(keys: keys, idx: 0, cb: KKObserverCallback.init( fn: fn, weakObject: weakObject, children : children))
     }
     
-    public func on(keys:[String],fn:KKObserver.Function?,weakObject:AnyObject?) {
-        self.on(keys: keys, fn: fn, weakObject: weakObject, children: false)
+    public func on(_ keys:[String],_ fn:KKObserver.Function?,_ weakObject:AnyObject?) {
+        self.on(keys, fn, weakObject, false)
     }
     
-    public func off(keys:[String],weakObject:AnyObject?) {
+    public func off(_ keys:[String],_ weakObject:AnyObject?) {
         keyObserver.remove(keys: keys, idx: 0, weakObject: weakObject)
     }
     
-    public func off(keys:[String]) {
-        keyObserver.remove(keys: keys, idx: 0, weakObject: nil)
-    }
-    
-    public func off(weakObject:AnyObject?) {
-        keyObserver.remove(keys: [], idx: 0, weakObject: weakObject)
-    }
     
 }
