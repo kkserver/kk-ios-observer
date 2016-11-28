@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class KKObject : NSObject {
+open class KKObject : NSObject {
     
     internal func valueOf() -> Any? {
         return self
@@ -40,16 +40,102 @@ public class KKObject : NSObject {
         return KKObject.get(self.valueOf(), keys)
     }
     
+    public func stringValue(_ keys:[String],_ defaultValue:String?) -> String? {
+        return KKObject.stringValue(get(keys), defaultValue)
+    }
+    
+    public func intValue(_ keys:[String],_ defaultValue:Int) -> Int {
+        return KKObject.intValue(get(keys), defaultValue)
+    }
+    
+    public func int64Value(_ keys:[String],_ defaultValue:Int64) -> Int64 {
+        return KKObject.int64Value(get(keys), defaultValue)
+    }
+    
+    public func floatValue(_ keys:[String],_ defaultValue:Float) -> Float {
+        return KKObject.floatValue(get(keys), defaultValue)
+    }
+    
+    public func doubleValue(_ keys:[String],_ defaultValue:Double) -> Double {
+        return KKObject.doubleValue(get(keys), defaultValue)
+    }
+    
+    public func booleanValue(_ keys:[String],_ defaultValue:Bool) -> Bool {
+        return KKObject.booleanValue(get(keys), defaultValue)
+    }
+    
     public func changeKeys(_ keys:[String]) {
         
     }
     
     public static func set(_ object:Any?,key:String,value:Any?) {
         
-        if object is Dictionary<String,Any?> {
-            var v = (object as! Dictionary<String,Any?>)
-            v[key] = value
-        } else if(object is NSObject) {
+        if object is Dictionary<String,Any> {
+            var v = (object as! Dictionary<String,Any>)
+            if value == nil {
+                v.removeValue(forKey: key)
+            }
+            else {
+                v[key] = value!
+            }
+        } else if(object is KKDictionary<String,Any> ) {
+            let v = (object as! KKDictionary<String,Any>)
+            if value == nil {
+                _ = v.removeValue(forKey: key)
+            }
+            else {
+                v[key] = value!
+            }
+        } else if(object is Array<Any>) {
+            var v = object as! Array<Any>
+            let i = intValue(key, 0);
+            if value == nil {
+                if(i>=0 && i < v.count) {
+                    v.remove(at: i)
+                }
+            }
+            else {
+                if( i == v.count) {
+                    v.append(value!)
+                }
+                else if(i >= 0 && i < v.count) {
+                    v[i] = value!
+                }
+            }
+        } else if(object is KKArray<Any>) {
+            let v = object as! KKArray<Any>
+            let i = intValue(key, 0);
+            if value == nil {
+                if(i>=0 && i < v.count) {
+                    _ = v.remove(at: i)
+                }
+            }
+            else {
+                if( i == v.count) {
+                    v.append(value!)
+                }
+                else if(i >= 0 && i < v.count) {
+                    v[i] = value!
+                }
+            }
+        } else if(object is NSMutableArray) {
+            let v = object as! NSMutableArray
+            let i = intValue(key, 0);
+            if value == nil {
+                if(i>=0 && i < v.count) {
+                    v.removeObject(at: i)
+                }
+            }
+            else {
+                if( i == v.count) {
+                    v.add(value!)
+                }
+                else if(i >= 0 && i < v.count) {
+                    v.replaceObject(at: i, with: value!)
+                }
+            }
+        }
+        else if(object is NSObject) {
             (object as! NSObject).setValue(value, forKey: key)
         }
         
@@ -68,7 +154,12 @@ public class KKObject : NSObject {
             if idx + 1 == keys.count {
                 KKObject.set(object,key:key,value:value)
             } else {
-                KKObject.set(object,keys,idx + 1,value)
+                var v = KKObject.get(object, key: key)
+                if v == nil {
+                    v = KKDictionary<String,Any>.init()
+                    KKObject.set(object, key: key, value: v)
+                }
+                KKObject.set(v,keys,idx + 1,value)
             }
             
         }
@@ -77,8 +168,8 @@ public class KKObject : NSObject {
     
     public static func remove(_ object:Any?,key:String) {
     
-        if object is Dictionary<String,Any?> {
-            var v = object as! Dictionary<String,Any?>
+        if object is Dictionary<String,Any> {
+            var v = object as! Dictionary<String,Any>
             v.removeValue(forKey: key)
         } else if object is NSMutableDictionary {
             (object as! NSMutableDictionary).removeObject(forKey: key)
@@ -107,9 +198,75 @@ public class KKObject : NSObject {
     
     public static func get(_ object:Any?,key:String) -> Any? {
         
-        if object is Dictionary<String,Any?> {
-            let v = object as! Dictionary<String,Any?>;
+        if object is Dictionary<String,Any> {
+            let v = object as! Dictionary<String,Any>;
             return v[key]
+        } else if object is KKDictionary<String,Any> {
+            let v = object as! KKDictionary<String,Any>;
+            return v[key]
+        } else if object is Array<Any> {
+            let v = object as! Array<Any>;
+            if key == "@last" {
+                if v.count > 0 {
+                    return v.last
+                }
+                return nil
+            } else if key == "@first" {
+                if v.count > 0 {
+                    return v.first
+                }
+                return nil
+            } else if key == "@length" {
+                return v.count
+            } else {
+                let i = intValue(key, 0)
+                if i >= 0 && i < v.count {
+                    return v[i]
+                }
+                return nil
+            }
+        } else if object is KKArray<Any> {
+            let v = object as! KKArray<Any>;
+            if key == "@last" {
+                if v.count > 0 {
+                    return v[v.count - 1]
+                }
+                return nil
+            } else if key == "@first" {
+                if v.count > 0 {
+                    return v[0]
+                }
+                return nil
+            } else if key == "@length" {
+                return v.count
+            } else {
+                let i = intValue(key, 0)
+                if i >= 0 && i < v.count {
+                    return v[i]
+                }
+                return nil
+            }
+        } else if object is NSArray {
+            let v = object as! NSArray;
+            if key == "@last" {
+                if v.count > 0 {
+                    return v.lastObject
+                }
+                return nil
+            } else if key == "@first" {
+                if v.count > 0 {
+                    return v.firstObject
+                }
+                return nil
+            } else if key == "@length" {
+                return v.count
+            } else {
+                let i = intValue(key, 0)
+                if i >= 0 && i < v.count {
+                    return v[i]
+                }
+                return nil
+            }
         } else if(object is NSObject) {
             return (object as! NSObject).value(forKey: key)
         }

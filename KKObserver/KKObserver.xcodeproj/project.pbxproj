@@ -11,6 +11,8 @@
 		ACC3FDE41DB0953900832008 /* KKObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC3FDE31DB0953900832008 /* KKObserver.swift */; };
 		ACC3FDE61DB0959200832008 /* KKObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC3FDE51DB0959200832008 /* KKObject.swift */; };
 		ACCD870E1DB0AEDB00C2E792 /* KKWithObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCD870D1DB0AEDA00C2E792 /* KKWithObserver.swift */; };
+		ACCDE54E1DEAE65700E6C255 /* KKDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCDE54D1DEAE65700E6C255 /* KKDictionary.swift */; };
+		ACCDE5501DEAE8FC00E6C255 /* KKArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCDE54F1DEAE8FC00E6C255 /* KKArray.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +22,8 @@
 		ACC3FDE31DB0953900832008 /* KKObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KKObserver.swift; sourceTree = "<group>"; };
 		ACC3FDE51DB0959200832008 /* KKObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KKObject.swift; sourceTree = "<group>"; };
 		ACCD870D1DB0AEDA00C2E792 /* KKWithObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KKWithObserver.swift; sourceTree = "<group>"; };
+		ACCDE54D1DEAE65700E6C255 /* KKDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KKDictionary.swift; sourceTree = "<group>"; };
+		ACCDE54F1DEAE8FC00E6C255 /* KKArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KKArray.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +61,8 @@
 				ACC3FDE31DB0953900832008 /* KKObserver.swift */,
 				ACC3FDE51DB0959200832008 /* KKObject.swift */,
 				ACCD870D1DB0AEDA00C2E792 /* KKWithObserver.swift */,
+				ACCDE54D1DEAE65700E6C255 /* KKDictionary.swift */,
+				ACCDE54F1DEAE8FC00E6C255 /* KKArray.swift */,
 			);
 			path = KKObserver;
 			sourceTree = "<group>";
@@ -143,8 +149,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACCD870E1DB0AEDB00C2E792 /* KKWithObserver.swift in Sources */,
+				ACCDE54E1DEAE65700E6C255 /* KKDictionary.swift in Sources */,
 				ACC3FDE61DB0959200832008 /* KKObject.swift in Sources */,
 				ACC3FDE41DB0953900832008 /* KKObserver.swift in Sources */,
+				ACCDE5501DEAE8FC00E6C255 /* KKArray.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -114,13 +114,13 @@ private class KKKeyObserver : NSObject {
     }
 }
 
-public class KKObserver : KKObject {
+open class KKObserver : KKObject {
     
     public typealias Function = (KKObserver,[String],AnyObject?)->Void
     
     public var value:Any? = nil
     
-    public var parent:KKObserver? {
+    open var parent:KKObserver? {
         get {
             return nil;
         }
@@ -130,7 +130,7 @@ public class KKObserver : KKObject {
     
     override internal func valueOf() -> Any? {
         if value == nil {
-           value = Dictionary<String,Any?>.init()
+           value = KKDictionary<String,Any>.init()
         }
         return value
     }
@@ -152,5 +152,26 @@ public class KKObserver : KKObject {
         keyObserver.remove(keys: keys, idx: 0, weakObject: weakObject)
     }
     
+    open override var description: String {
+        get {
+            if(value != nil && value is NSObjectProtocol) {
+                return (value as! NSObjectProtocol?)!.description
+            }
+            
+            return super.description
+        }
+    }
+    
+    
+    override open var debugDescription: String {
+        get {
+            
+            if(value != nil && value is NSObjectProtocol) {
+                return (value as! NSObjectProtocol?).debugDescription
+            }
+            
+            return super.debugDescription
+        }
+    }
     
 }

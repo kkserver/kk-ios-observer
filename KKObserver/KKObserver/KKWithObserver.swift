@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class KKWithObserver : KKObserver {
+open class KKWithObserver : KKObserver {
 
     private static let Func:KKObserver.Function = { (observer:KKObserver, keys:[String], weakObject:AnyObject?) in
         
@@ -47,7 +47,7 @@ public class KKWithObserver : KKObserver {
         }
     }
     
-    public override var parent:KKObserver? {
+    open override var parent:KKObserver? {
         get {
             return _observer;
         }
