@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class KKArray<Value>: NSObject {
+public class KKArray<Value>: NSObject,Sequence {
 
     private var _object:Array<Value>
     
@@ -20,6 +20,10 @@ public class KKArray<Value>: NSObject {
     public init(array:Array<Value>) {
         _object = array
         super.init()
+    }
+    
+    public func makeIterator() -> IndexingIterator<Array<Value>> {
+        return _object.makeIterator()
     }
     
     public subscript(index: Int) -> Value {

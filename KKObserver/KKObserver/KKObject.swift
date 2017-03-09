@@ -490,4 +490,82 @@ open class KKObject : NSObject {
         return defaultValue;
     }
     
+    
+    public typealias EachFunction = (Any?,Any?)->Bool
+    
+    public static func each(_ object:Any?,_ fn:EachFunction) {
+        
+        if object == nil {
+            return
+        }
+        
+        if object is KKArray<Any> {
+           
+            let v = object! as! KKArray<Any>
+            var i = 0
+        
+            for value in v {
+                if fn(i, value) == false {
+                    break;
+                }
+                i = i + 1
+            }
+            
+        } else if object is KKDictionary<String,Any> {
+            
+            let v = object! as! KKDictionary<String,Any>
+            
+            for (key,value) in v {
+                if fn(key, value) == false {
+                    break;
+                }
+            }
+
+        } else if object is Array<Any> {
+            
+            let v = object! as! Array<Any>
+            var i = 0
+            
+            for value in v{
+                if fn(i, value) == false {
+                    break;
+                }
+                i = i + 1
+            }
+        } else if object is Dictionary<String,Any> {
+            
+            let v = object! as! Dictionary<String,Any>
+            
+            for (key,value) in v {
+                if fn(key, value) == false {
+                    break;
+                }
+            }
+            
+        } else if object is NSArray {
+            
+            let v = object! as! NSArray
+            var i = 0
+            
+            for value in v {
+                if fn(i, value) == false {
+                    break;
+                }
+                i = i + 1
+            }
+            
+        } else if object is NSDictionary {
+            
+            let v = object! as! NSDictionary
+            
+            for (key,value) in v {
+                if fn(key, value) == false {
+                    break;
+                }
+            }
+            
+        }
+
+    }
+    
 }
