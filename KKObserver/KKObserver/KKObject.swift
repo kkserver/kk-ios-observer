@@ -491,9 +491,9 @@ open class KKObject : NSObject {
     }
     
     
-    public typealias EachFunction = (Any?,Any?)->Bool
+    public typealias EachFunction = (Any?,Any?)->Void
     
-    public static func each(_ object:Any?,_ fn:EachFunction) {
+    public static func forEach(_ object:Any?,_ fn:EachFunction) -> Void {
         
         if object == nil {
             return
@@ -503,66 +503,58 @@ open class KKObject : NSObject {
            
             let v = object! as! KKArray<Any>
             var i = 0
-        
-            for value in v {
-                if fn(i, value) == false {
-                    break;
-                }
+            
+            v.forEach({ (value) in
+                fn(i,value)
                 i = i + 1
-            }
+            })
+            
             
         } else if object is KKDictionary<String,Any> {
             
             let v = object! as! KKDictionary<String,Any>
             
-            for (key,value) in v {
-                if fn(key, value) == false {
-                    break;
-                }
-            }
+            v.forEach({ (key, value) in
+                fn(key,value)
+            })
+            
 
         } else if object is Array<Any> {
             
             let v = object! as! Array<Any>
             var i = 0
             
-            for value in v{
-                if fn(i, value) == false {
-                    break;
-                }
+            v.forEach({ (value) in
+                fn(i,value)
                 i = i + 1
-            }
+            })
+            
         } else if object is Dictionary<String,Any> {
             
             let v = object! as! Dictionary<String,Any>
             
-            for (key,value) in v {
-                if fn(key, value) == false {
-                    break;
-                }
-            }
+            v.forEach({ (key, value) in
+                fn(key,value)
+            })
             
         } else if object is NSArray {
             
             let v = object! as! NSArray
             var i = 0
             
-            for value in v {
-                if fn(i, value) == false {
-                    break;
-                }
+            v.forEach({ (value) in
+                fn(i,value)
                 i = i + 1
-            }
+            })
+            
             
         } else if object is NSDictionary {
             
             let v = object! as! NSDictionary
             
-            for (key,value) in v {
-                if fn(key, value) == false {
-                    break;
-                }
-            }
+            v.forEach({ (key, value) in
+                fn(key,value)
+            })
             
         }
 

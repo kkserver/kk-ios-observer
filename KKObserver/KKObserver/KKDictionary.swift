@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class KKDictionary<Key:Hashable,Value> :NSObject,Sequence {
+public class KKDictionary<Key:Hashable,Value> :NSObject {
 
     private var _object:Dictionary<Key,Value>
     
@@ -22,8 +22,8 @@ public class KKDictionary<Key:Hashable,Value> :NSObject,Sequence {
         super.init()
     }
     
-    public func makeIterator() -> DictionaryIterator<Key, Value> {
-        return _object.makeIterator()
+    public func forEach(_ body: (Key, Value) throws -> Void) rethrows {
+        try _object.forEach(body)
     }
     
     public subscript(key: Key) -> Value? {
