@@ -300,7 +300,27 @@ open class KKObject : NSObject {
             return object as! String?;
         }
         
-        return String(describing: object)
+        if(object is Int) {
+            return String.init(object as! Int);
+        }
+        
+        if(object is NSNumber) {
+            return (object as! NSNumber).stringValue;
+        }
+        
+        if(object is Int64) {
+            return String.init(object as! Int64);
+        }
+        
+        if(object is Float) {
+            return String.init(object as! Float);
+        }
+        
+        if(object is Double) {
+            return String.init(object as! Double);
+        }
+        
+        return defaultValue
     }
 
     public static func intValue(_ object:Any?,_ defaultValue:Int) -> Int {
